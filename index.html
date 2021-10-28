@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+        <title>This is my example homepage.</title>
+    </head>
+    <body>
+        <h2>The First Visualization shows the relationship between Mean Square Footage and the Agency Name </h2>
+        <p>
+           It is an interactive visualization which highlights the bar while hovering it and displays the information about each bar. 
+        </p>
+        <h3>The Second Visualization shows the relationship between Total Square Footage and the Agency Name</h3>
+        <p>
+           The label shows the value of each bar.  
+        </p>
+        <div id="myviz">
+        </div>
+    </body>
+    <script>
+        mySpec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/kothariashish21/ashishk21-DataViz.github.io/master/building_inventory.csv"
+  },
+  "vconcat": [
+    {
+      "params": [
+        {"name": "highlight", "select": {"type": "point", "on": "mouseover"}},
+        {"name": "select", "select": "point"}
+      ],
+      "mark": {
+        "type": "bar",
+        "fill": "#bd263fd3",
+        "stroke": "black",
+        "cursor": "pointer", "tooltip":true
+      },
+      "encoding": {
+        "y": {
+          "field": "Square Footage",
+          "aggregate": "mean",
+          "type": "quantitative",
+          "title": "Mean Square Footage"
+        },
+        "x": {"field": "Agency Name", "axis": {"labelAngle": 300}},
+        "fillOpacity": {
+          "condition": {"param": "select", "value": 1},
+          "value": 0.8
+        },
+        "strokeWidth": {
+          "condition": [
+            {"param": "select", "empty": false, "value": 1},
+            {"param": "highlight", "empty": false, "value": 2}
+          ],
+          "value": 0
+        }
+      }
+    },
+    {
+      "mark": "bar",
+      "encoding": {
+        "y": {"field": "Agency Name"},
+        "x": {
+          "field": "Square Footage",
+          "aggregate": "sum",
+          "type": "quantitative",
+          "title": "Total Square Footage"
+        }
+      },
+      "layer": [
+        {"mark": "bar"},
+        {
+          "mark": {
+            "type": "text",
+            "align": "middle",
+            "baseline": "middle",
+            "dx": 3
+          },
+          "encoding": {
+            "text": {
+              "field": "Square Footage",
+              "aggregate": "sum",
+              "type": "quantitative",
+              "format": ".3s"
+            }
+          }
+        }
+      ]
+    }
+  ]
+  };
+        vegaEmbed('#myviz', mySpec);
+    </script>
+</html>
