@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Embedding Vega-Lite</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.21.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.2"></script>
+  </head>
+  <body>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+      var yourVlSpec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "repeat": ["VIC_AGE_GROUP", "STATISTICAL_MURDER_FLAG", "VIC_RACE", "PERP_SEX"],
+      "columns": 2,
+      "spec": { 
+      "data": { 
+    "url": "https://raw.githubusercontent.com/kothariashish21/ashishk21-DataViz.github.io/master/NYPD_Shooting_Incident_Data__Historic_.csv" 
+  }, 
+  "params": [
+        {"name": "highlight", "select": {"type": "point", "on": "mouseover"}},  
+        {"name": "select", "select": "point"}
+      ],
+      "mark": {
+        "type": "bar",
+        "stroke": "black",
+        "cursor": "pointer", "tooltip":true
+      }, 
+      "encoding": { 
+        "y": {  
+          "aggregate": "count", 
+          "type": "quantitative",
+          "title": "Shooting Incidents"  
+           },  
+        "x": {"field": {"repeat": "repeat"}},  
+        "xOffset":{"field": "VIC_SEX"}, 
+        "color": {"field": "VIC_SEX", "scale": {"scheme": "sinebow"}},
+        "fillOpacity": {
+          "condition": {"param": "select", "value": 1},
+          "value": 0.8
+        },  
+        "strokeWidth": { 
+          "condition": [ 
+            {"param": "select", "empty": false, "value": 1},
+            {"param": "highlight", "empty": false, "value": 2} 
+          ],
+          "value": 0
+  }  
+     }  
+   }  
+};
+      vegaEmbed('#vis', yourVlSpec);
+    </script>
+  </body>

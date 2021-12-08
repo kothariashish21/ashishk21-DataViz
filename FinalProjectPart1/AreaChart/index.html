@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Embedding Vega-Lite</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.21.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.2"></script>
+  </head>
+  <body>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+      var yourVlSpec = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "height": 400, 
+        "width": 500,
+        "data": { "url": "https://raw.githubusercontent.com/kothariashish21/ashishk21-DataViz.github.io/master/NYPD_Shooting_Incident_Data__Historic_.csv" }, 
+        "mark": {"type": "area", "line": {"color": "black"}, "point": true},
+        "encoding": { 
+        "x": {"field": "OCCUR_DATE","timeUnit": "year", "type": "temporal", "title": "Years"}, 
+        "y": {"aggregate": "count", "title": "Total Shooting Incidents"},
+        "color": {"aggregate": "count","scale": {"range": ["black", "red"]}} 
+  } 
+};
+      vegaEmbed('#vis', yourVlSpec);
+    </script>
+  </body>
