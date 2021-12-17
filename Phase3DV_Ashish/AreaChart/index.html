@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+        <title>This is my example homepage.</title>
+    </head>
+    <body>
+        <div id="myviz">
+        </div>
+    </body>
+    <script>
+        mySpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "height": 400,
+  "width": 500,
+  "data":{ "url": "https://raw.githubusercontent.com/kothariashish21/ashishk21-DataViz.github.io/master/hate_crime.csv"},
+  "encoding": {
+      "x": {"field": "DATA_YEAR", "title": "Years"},
+      "y": {"aggregate": "count", "title": "Total Number of Hate Crimes"}
+  },
+  "layer": [{
+    "params": [{
+      "name": "brush",
+      "select": {"type": "interval", "encodings": ["x"]}
+    }],
+    "mark": {
+    "type": "area",
+    "line": {
+      "color": "black"
+    },
+    "color": {
+      "gradient": "linear",
+      "stops": [
+        {
+          "offset": 0,
+          "color": "black"
+        },
+        {
+          "offset": 1,
+          "color": "red"
+        }
+      ]
+    }
+  }
+  }, {
+    "transform": [
+      {"filter": {"param": "brush"}}
+    ],
+    "mark": {"type": "area", "color": "darkred"}
+  }]
+};
+        vegaEmbed('#myviz', mySpec);
+    </script>
+</html>
